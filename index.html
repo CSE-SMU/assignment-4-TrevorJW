@@ -1,9 +1,46 @@
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>Todo Application</title>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css">
-  </head>
-  <body>
-  </body>
+<div class = "container-fluid">
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css">
+
+<body ng-app="myApp" ng-controller="todoCtrl">
+
+<nav class="navbar navbar-light bg-faded" style="margin-bottom:20">
+		<a class="navbar-brand" href="#">Trevor's Task List</a>
+</nav>
+
+
+<form ng-submit="todoAdd()">
+    <input type="text" ng-model="Input" size="70" placeholder="Add New Task">
+    <input type="submit" class = "btn btn-success" value="Add Task">
+</form>
+
+<br>
+<div ng-repeat="x in todoList">
+    <input type="checkbox" ng-model="x.done"> <span ng-bind="x.todoText"></span>
+</div>
+
+<p><button ng-click="remove()" class="btn btn-primary">Remove Completed Task(s)</button></p>
+<div>
+<script>
+var todo = angular.module('myApp', []); 
+todo.controller('todoCtrl', function($scope) {
+	$scope.todoList = [{todoText:'Cure Zika', done:false}];
+    $scope.todoAdd = function() {
+        $scope.todoList.push({todoText:$scope.Input, done:false});
+        $scope.Input = "";
+    };
+
+    $scope.remove = function() {
+        var old = $scope.todoList;
+        $scope.todoList = [];
+        angular.forEach(old, function(k) {
+            if (!k.done) $scope.todoList.push(k);
+        });
+    };
+});
+</script>
+
+</body>
 </html>
